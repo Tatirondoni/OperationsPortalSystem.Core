@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="OperationsPortal.Api/OperationsPortal.Api.csproj" />
+  <Project Path="OperationsPortal.Application/OperationsPortal.Application.csproj" />
+  <Project Path="OperationsPortal.Domain/OperationsPortal.Domain.csproj" />
+  <Project Path="OperationsPortal.Infrastructure/OperationsPortal.Infrastructure.csproj" />
+</Solution>
