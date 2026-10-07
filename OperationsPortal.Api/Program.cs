@@ -1,25 +1,43 @@
+using Microsoft.EntityFrameworkCore;
+using OperationsPortal.Api.ExceptionHandlers;
+using OperationsPortal.Application.Interfaces.Repositories;
+using OperationsPortal.Application.Services.Categories;
+using OperationsPortal.Infrastructure.Data;
+using OperationsPortal.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+builder.Services.AddProblemDetails();
+
+builder.Services.AddExceptionHandler<
+    CategoryNameAlreadyExistsExceptionHandler>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = builder.Configuration.GetConnectionString(
+    "DefaultConnection"
+);
+
+builder.Services.AddDbContext<OperationsPortalDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseExceptionHandler();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
-
-
