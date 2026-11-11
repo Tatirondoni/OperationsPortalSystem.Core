@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using OperationsPortal.Api.ExceptionHandlers;
 using OperationsPortal.Application.Interfaces.Repositories;
 using OperationsPortal.Application.Services.Categories;
+using OperationsPortal.Application.Services.TicketStatuses;
 using OperationsPortal.Infrastructure.Data;
 using OperationsPortal.Infrastructure.Repositories;
 
@@ -26,6 +27,13 @@ builder.Services.AddDbContext<OperationsPortalDbContext>(options =>
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<
+    ITicketStatusRepository,
+    TicketStatusRepository>();
+
+builder.Services.AddScoped<
+    ITicketStatusService,
+    TicketStatusService>();
 
 var app = builder.Build();
 
